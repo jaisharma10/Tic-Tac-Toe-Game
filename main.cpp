@@ -1,301 +1,142 @@
+// Tic Tac Toe Game
+
 #include <iostream>
-#include <stdlib.h>
 using namespace std;
-void printBoard();
-void playerInput();
-void machineInput();
-void refreshPage();
-void resetGame();
-int checkWinner();
-int board[9] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-int player = 1;
+
+//  declare variables and functions
+char square[10] = {'o','1','2','3','4','5','6','7','8','9'};
+int check_win();
+void board();
+
+
+/*********************************************
+check_win function returns 3 outputs"
+    1 - Game Won
+	0 - Game Draw
+   -1 - Game in Progress
+**********************************************/
+
+int check_win(){
+
+	// horizontal cases
+	if (square[1] == square[2] && square[2] == square[3]){
+		return 1;
+	} else if (square[4] == square[5] && square[5] == square[6]){
+		return 1;
+	} else if (square[7] == square[8] && square[8] == square[9]){
+		return 1;
+	}
+
+	// vertical cases
+	else if (square[1] == square[4] && square[4] == square[7]){
+		return 1;
+	} else if (square[2] == square[5] && square[5] == square[8]){
+		return 1;
+	} else if (square[3] == square[6] && square[6] == square[9]){
+		return 1;
+	}
+
+	// diagonal cases
+	else if (square[1] == square[5] && square[5] == square[9]){
+		return 1;
+	} else if (square[7] == square[5] && square[5] == square[3]){
+		return 1;
+	}
+
+	// draw cases [all squares are filled]
+    else if (square[1] != '1' && square[2] != '2' && square[3] != '3' 
+            && square[4] != '4' && square[5] != '5' && square[6] != '6' 
+            && square[7] != '7' && square[8] != '8' && square[9] != '9'){
+		return 0;
+	}
+	
+	// no win
+	else{
+		return -1;
+	}
+}
+
+
+/*******************************************************************
+   			   Build Tic Tac Toe Board with User Entry
+********************************************************************/
+
+
+void board()
+{
+	cout << "\n=================================" << endl;
+    cout << "|\t-- Tic Tac Toe --\t|" << endl;
+	cout << "=================================" << endl;
+    cout << "   Player 1 (X)  -  Player 2 (O)" << endl << endl;
+    cout << endl;
+    cout << "\t     |     |     " << endl;
+    cout << "\t  " << square[1] << "  |  " << square[2] << "  |  " << square[3] << endl;
+    cout << "\t_____|_____|_____" << endl;
+    cout << "\t     |     |     " << endl;
+    cout << "\t  " << square[4] << "  |  " << square[5] << "  |  " << square[6] << endl;
+    cout << "\t_____|_____|_____" << endl;
+    cout << "\t     |     |     " << endl;
+    cout << "\t  " << square[7] << "  |  " << square[8] << "  |  " << square[9] << endl;
+    cout << "\t     |     |     \n\n" << endl;
+}
+
+
+/*********************************************
+   				 Main function
+**********************************************/
+
 int main() {
-	cout << "Tic Tac Toe\n\nTutorial:\n1.Type in the corresponding number given in the key map. \n2.If you lose, you will be first in the second round, otherwise, you will be second.\n";
-	cout << "\nPress any key to play again...\n";
-	char c;
-	cin >> c;
-start:
-	refreshPage();
-	printBoard();
-	playerInput();
-	refreshPage();
-	printBoard();
-	//**********************************************
-	if (checkWinner() == 10) {
-		cout << endl;
-		cout << "***********************************\n";
-		cout << "* Game over! It is a tie!         *\n";
-		cout << "***********************************\n";
-		cout << "\nPress any key to play again...\n";
-		char c;
-		cin >> c;
-		player = 1;
-		resetGame();
-		goto start;
-	}
-	if (checkWinner() == player) {
-		cout << endl;
-		cout << "***********************************\n";
-		cout << "* Game over! The winner is YOU!   *\n";
-		cout << "***********************************\n";
-		cout << "\nPress any key to play again...\n";
-		char c;
-		cin >> c;
-		player = 2;
-		resetGame();
-		goto secround;
-	}
-	else if ((checkWinner() != 0) && (checkWinner() != player)) {
-		cout << endl;
-		cout << "***********************************\n";
-		cout << "* Game over! The winner is ME!    *\n";
-		cout << "***********************************\n";
-		cout << "\nPress any key to play again...\n";
-		char c;
-		cin >> c;
-		player = 1;
-		resetGame();
-		goto start;
-	}
-	//**********************************************
-	refreshPage();
-	printBoard();
-secround:
-	refreshPage();
-	printBoard();
-	machineInput();
-	refreshPage();
-	//printBoard();
-	//**********************************************
-	if (checkWinner() == 10) {
-		cout << endl;
-		cout << "***********************************\n";
-		cout << "* Game over! It is a tie!         *\n";
-		cout << "***********************************\n";
-		cout << "\nPress any key to play again...\n";
-		char c;
-		cin >> c;
-		player = 1;
-		resetGame();
-		goto start;
-	}
-	if (checkWinner() == player) {
-		cout << endl;
-		cout << "***********************************\n";
-		cout << "* Game over! The winner is YOU!   *\n";
-		cout << "***********************************\n";
-		cout << "\nPress any key to play again...\n";
-		char c;
-		cin >> c;
-		player = 2;
-		resetGame();
-		goto secround;
-	}
-	else if ((checkWinner() != 0) && (checkWinner() != player)) {
-		cout << endl;
-		cout << "***********************************\n";
-		cout << "* Game over! The winner is ME!    *\n";
-		cout << "***********************************\n";
-		cout << "\nPress any key to play again...\n";
-		char c;
-		cin >> c;
-		player = 1;
-		resetGame();
-		goto start;
-	}
-	//**********************************************
-	refreshPage();
-	printBoard();
-	goto start;
-	return 0;
-}
 
-void resetGame() {
-	for (int i = 0; i < 9; i++) {
-		board[i] = 0;
-	}
-}
-void refreshPage() {
-	for (int i = 0; i < 100; i++) {
-		cout << "\n";
-	}
-}
+	int player = 1,i,choice;
+	char mark;
+	do {
+		board();                      // prints the current state of the board
+		player = (player % 2) ? 1:2;  // toggle between player1 and player2
+		cout << "Player " << player << ", enter a number: ";
+		cin >> choice; 		                // Ask for input block
+		mark = (player == 1) ? 'X' : 'O';   // return mark based on condition 
 
-
-
-int checkWinner() {
-	if ((board[0] != 0) && (board[1] != 0) && (board[2] != 0) && (board[3] != 0) && (board[4] != 0) && (board[5] != 0) && (board[6] != 0) && (board[7] != 0) && (board[8] != 0)) {
-		return 10;
-	}
-	if ((board[0] == board[1]) && (board[1] == board[2]) && (board[0] != 0)) {
-		return board[0];
-	}
-	if ((board[3] == board[4]) && (board[4] == board[5]) && (board[3] != 0)) {
-		return board[3];
-	}
-	if ((board[6] == board[7]) && (board[7] == board[8]) && (board[6] != 0)) {
-		return board[6];
-	}
-	if ((board[0] == board[3]) && (board[3] == board[6]) && (board[0] != 0)) {
-		return board[0];
-	}
-	if ((board[1] == board[4]) && (board[4] == board[7]) && (board[1] != 0)) {
-		return board[1];
-	}
-	if ((board[2] == board[5]) && (board[5] == board[8]) && (board[2] != 0)) {
-		return board[2];
-	}
-	if ((board[0] == board[4]) && (board[4] == board[8]) && (board[0] != 0)) {
-		return board[0];
-	}
-	if ((board[2] == board[4]) && (board[4] == board[6]) && (board[2] != 0)) {
-		return board[2];
-	}
-	return 0;
-}
-
-void machineInput() {
-	int input = 9;
-	cout << "My turn. Thinking...\n";
-	if ((board[0] == board[1]) && (board[0] == player) && (board[2] == 0)) {
-		input = 2;
-	}
-	if ((board[1] == board[2]) && (board[1] == player) && (board[0] == 0)) {
-		input = 0;
-	}
-	if ((board[0] == board[2]) && (board[0] == player) && (board[1] == 0)) {
-		input = 1;
-	}
-	if ((board[3] == board[4]) && (board[3] == player) && (board[5] == 0)) {
-		input = 5;
-	}
-	if ((board[4] == board[5]) && (board[4] == player) && (board[3] == 0)) {
-		input = 3;
-	}
-	if ((board[3] == board[5]) && (board[3] == player) && (board[4] == 0)) {
-		input = 4;
-	}
-	if ((board[6] == board[7]) && (board[6] == player) && (board[8] == 0)) {
-		input = 8;
-	}
-	if ((board[7] == board[8]) && (board[7] == player) && (board[6] == 0)) {
-		input = 6;
-	}
-	if ((board[6] == board[8]) && (board[6] == player) && (board[7] == 0)) {
-		input = 7;
-	}
-	if ((board[0] == board[3]) && (board[0] == player) && (board[6] == 0)) {
-		input = 6;
-	}
-	if ((board[3] == board[6]) && (board[3] == player) && (board[0] == 0)) {
-		input = 0;
-	}
-	if ((board[0] == board[6]) && (board[0] == player) && (board[3] == 0)) {
-		input = 3;
-	}
-	if ((board[1] == board[4]) && (board[1] == player) && (board[7] == 0)) {
-		input = 7;
-	}
-	if ((board[4] == board[7]) && (board[4] == player) && (board[1] == 0)) {
-		input = 1;
-	}
-	if ((board[1] == board[7]) && (board[1] == player) && (board[4] == 0)) {
-		input = 4;
-	}
-	if ((board[2] == board[5]) && (board[2] == player) && (board[8] == 0)) {
-		input = 8;
-	}
-	if ((board[5] == board[8]) && (board[5] == player) && (board[2] == 0)) {
-		input = 2;
-	}
-	if ((board[2] == board[8]) && (board[2] == player) && (board[5] == 0)) {
-		input = 5;
-	}
-	if ((board[0] == board[4]) && (board[0] == player) && (board[8] == 0)) {
-		input = 8;
-	}
-	if ((board[4] == board[8]) && (board[4] == player) && (board[0] == 0)) {
-		input = 0;
-	}
-	if ((board[0] == board[8]) && (board[0] == player) && (board[4] == 0)) {
-		input = 4;
-	}
-	if ((board[2] == board[4]) && (board[2] == player) && (board[6] == 0)) {
-		input = 6;
-	}
-	if ((board[4] == board[6]) && (board[4] == player) && (board[2] == 0)) {
-		input = 2;
-	}
-	if ((board[2] == board[6]) && (board[2] == player) && (board[4] == 0)) {
-		input = 4;
-	}
-	if (input == 9) {
-		cout << "No solution, randomly filling in...\n";
-		int i;
-		while (input != 9) {
-			i = rand() % 9;
-			if (board[i] == 0) {
-				input = i;
-			}
+		// fill the board with valid entry
+		if (choice == 1 && square[1] == '1'){
+			square[1] = mark;
+		} else if (choice == 2 && square[2] == '2'){
+			square[2] = mark;
+		} else if (choice == 3 && square[3] == '3'){
+			square[3] = mark;
+		} else if (choice == 4 && square[4] == '4'){
+			square[4] = mark;
+		} else if (choice == 5 && square[5] == '5'){
+			square[5] = mark;
+		} else if (choice == 6 && square[6] == '6'){
+			square[6] = mark;
+		} else if (choice == 7 && square[7] == '7'){
+			square[7] = mark;
+		} else if (choice == 8 && square[8] == '8'){
+			square[8] = mark;
+		} else if (choice == 9 && square[9] == '9'){
+			square[9] = mark;
+		} else {
+			cout << "Invalid Move" << endl;
+			cout << "Please Give a New Input" << endl;
+			player--;                       // player is not toggled
+			cin.ignore();                   // earlier player input is ignored
+			cin.get();
 		}
-	}
-	if (player == 1) {
-		board[input] = 2;
-	}
-	else {
-		board[input] = 1;
-	}
-	cout << "Placed on address " << input << "\n";
-	printBoard();
-}
 
-void playerInput() {
-	int input;
-ask:
-	input = 0;
-	cout << "Your turn. Enter a number.\n";
-	cin >> input;
-	if (input > 9) {
-		cout << "The number you entered is too big.\n";
-		goto ask;
-	}
-	else if (input < 1) {
-		cout << "The number you entered is too small.\n";
-		goto ask;
-	}
-	else if (board[input - 1] != 0) {
-		cout << "The number you entered has already filled in.\n";
-		goto ask;
-	}
-	else {
-		board[input - 1] = player;
-	}
-}
+		i = check_win();
+		player++;
 
-
-
-
-void printBoard() {
-	char displayBoard[9] = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' };
-	for (int i = 0; i < 9; i++) {
-		switch (board[i]) {
-		case 0:
-			displayBoard[i] = ' ';
-			break;
-		case 1:
-			displayBoard[i] = 'O';
-			break;
-		case 2:
-			displayBoard[i] = 'X';
-			break;
-		};
+	} 
+	
+	// process result of the move
+	while(i==-1);                                // no result, keep looping
+	board();                                     // print final board
+	if(i==1){                                    // game has a winner
+		cout<<"==>\a Player "<<--player<<" wins ";
+	} else{                                      // game is a draw
+		cout<<"==>\a Game Draw";
 	}
-	cout << "Game Board          Key Map\n";
-	cout << "*************       *************\n";
-	cout << "* " << displayBoard[0] << " * " << displayBoard[1] << " * " << displayBoard[2] << " *       * 1 * 2 * 3 *\n";
-	cout << "*************       *************\n";
-	cout << "* " << displayBoard[3] << " * " << displayBoard[4] << " * " << displayBoard[5] << " *       * 4 * 5 * 6 *\n";
-	cout << "*************       *************\n";
-	cout << "* " << displayBoard[6] << " * " << displayBoard[7] << " * " << displayBoard[8] << " *       * 7 * 8 * 9 *\n";
-	cout << "*************       *************\n";
-}
+	cin.ignore();  // clear characters from input buffer
+	cin.get();
+	return 0;
+} 
